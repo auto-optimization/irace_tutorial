@@ -1,0 +1,4 @@
+debug           ""   c      (0)  # Fixed parameter: 1 = prints some debug info.
+p_int           ""   i      (1, 100)
+p_real          ""   r      (0, 1)
+
