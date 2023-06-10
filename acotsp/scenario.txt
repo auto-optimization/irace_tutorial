@@ -1,0 +1,37 @@
+###################################################### -*- mode: r -*- #####
+## Scenario setup for Iterated Race (irace).
+############################################################################
+## To use the default value of a parameter of iRace, simply do not set
+## the parameter (comment it out in this file, and do not give any
+## value on the command line).
+
+## File that contains the description of the parameters.
+parameterFile = "./parameters-acotsp.txt"
+
+## Directory where the programs will be run.
+execDir = "./execdir"
+
+## Executable called for each configuration that executes the target algorithm
+## to be tuned. See the templates and examples provided.
+targetRunner = "./target-runner-acotsp.py"
+
+## Executable that will be used to launch the target runner, when targetRunner
+## cannot be executed directly (.e.g, a Python script in Windows).
+# targetRunnerLauncher = "C:/Python/bin/python3.exe"
+
+## Directory where tuning instances are located, either absolute path or
+## relative to current directory.
+trainInstancesDir = "./Instances/train/"
+testInstancesDir = "./Instances/test/"
+
+## The maximum number of runs (invocations of targetRunner) that will
+## performed. It determines the (maximum) budget of experiments for the tuning.
+maxExperiments = 1000
+
+## File that contains a table of initial configurations. If empty or NULL, all
+## initial configurations are randomly generated.
+configurationsFile = "default.txt"
+
+## END of scenario file
+############################################################################
+

@@ -1,0 +1,5 @@
+*.o
+*.Rdata
+report.html
+report_files
+

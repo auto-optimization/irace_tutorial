@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Manuel López-Ibáñez, University of Manchester, UK (https://lopez-ibanez.eu)" />
+  <title>Automatic Algorithm Configuration: Practical lab session</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; } /* Alert */
+    code span.an { color: #008000; } /* Annotation */
+    code span.at { } /* Attribute */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #0000ff; } /* ControlFlow */
+    code span.ch { color: #008080; } /* Char */
+    code span.cn { } /* Constant */
+    code span.co { color: #008000; } /* Comment */
+    code span.cv { color: #008000; } /* CommentVar */
+    code span.do { color: #008000; } /* Documentation */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.im { } /* Import */
+    code span.in { color: #008000; } /* Information */
+    code span.kw { color: #0000ff; } /* Keyword */
+    code span.op { } /* Operator */
+    code span.ot { color: #ff4000; } /* Other */
+    code span.pp { color: #ff4000; } /* Preprocessor */
+    code span.sc { color: #008080; } /* SpecialChar */
+    code span.ss { color: #008080; } /* SpecialString */
+    code span.st { color: #008080; } /* String */
+    code span.va { } /* Variable */
+    code span.vs { color: #008080; } /* VerbatimString */
+    code span.wa { color: #008000; font-weight: bold; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<p><img style="float:right" src="./img/ssaad2023.png" height="100px" /></p>
+<header id="title-block-header">
+<h1 class="title">Automatic Algorithm Configuration: Practical lab session</h1>
+<p class="subtitle">Summer School on Automatic Algorithm Design 2023, Lille, France</p>
+<p class="author">Manuel López-Ibáñez, University of Manchester, UK (<a href="https://lopez-ibanez.eu" class="uri">https://lopez-ibanez.eu</a>)</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Contents</h2>
+<ul>
+<li><a href="#download">Download</a></li>
+<li><a href="#setup">Setup</a>
+<ul>
+<li><a href="#install-iraceplot-optional">Install iraceplot (optional)</a></li>
+</ul></li>
+<li><a href="#part-1-a-dummy-scenario">Part 1: A dummy scenario</a>
+<ul>
+<li><a href="#exercise-1-basic-usage">Exercise 1: Basic usage</a></li>
+<li><a href="#exercise-2-time-as-tuning-budget">Exercise 2: Time as tuning budget</a></li>
+<li><a href="#exercise-3-capping">Exercise 3: Capping</a></li>
+<li><a href="#exercise-4-rejection">Exercise 4: Rejection</a></li>
+<li><a href="#exercise-5-examining-the-log-file">Exercise 5: Examining the log file</a></li>
+</ul></li>
+<li><a href="#part-2-target-runner-as-a-python-script">Part 2: target-runner as a Python script</a></li>
+<li><a href="#part-3-ablation-analysis">Part 3: Ablation analysis</a></li>
+<li><a href="#part-4-acotsp-scenario">Part 4: ACOTSP scenario</a></li>
+<li><a href="#homework">Homework</a></li>
+</ul>
+</nav>
+<h2 id="download">Download</h2>
+<p>Download the materials from here: <a href="https://lopez-ibanez.eu/exercises.zip" class="uri">https://lopez-ibanez.eu/exercises.zip</a></p>
+<h2 id="setup">Setup</h2>
+<ol type="1">
+<li><p>Installing R: <a href="https://mlopez-ibanez.github.io/irace/#installing-r" class="uri">https://mlopez-ibanez.github.io/irace/#installing-r</a></p></li>
+<li><p>Install RStudio Desktop (optional but useful if you have never used R before): <a href="https://posit.co/download/rstudio-desktop/" class="uri">https://posit.co/download/rstudio-desktop/</a></p></li>
+<li><p>Open RStudio (or the R console) and type (this may take a while):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">install.packages</span>(<span class="st">&quot;irace&quot;</span>, <span class="dt">repos =</span> <span class="st">&quot;https://cloud.r-project.org&quot;</span>)</span></code></pre></div></li>
+<li><p>Find where <strong>irace</strong> is installed. Type in the R console:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">library</span>(irace)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--help&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="kw">cat</span>(<span class="kw">system.file</span>(<span class="dt">package=</span><span class="st">&quot;irace&quot;</span>, <span class="st">&quot;bin&quot;</span>, <span class="dt">mustWork=</span><span class="ot">TRUE</span>), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<p>The last command gives you the installation folder of <strong>irace</strong>, for example, <code>/home/user/R/irace/bin</code>. <em>Make a note of it!</em></p></li>
+<li><p>You do not need to launch R or RStudio to run <strong>irace</strong>. If you visit the above folder, you will see that <strong>irace</strong> provides several executable files. You can call the executables directly like from the Bash shell, Terminal or Powershell:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="ex">/home/user/R/irace/bin/irace</span> --help</span></code></pre></div>
+<p>If you add <strong>irace</strong>’s <code>bin/</code> folder to the <code>PATH</code> environment variable of your operating system means, then you can simply type: <code>irace --help</code> (or <code>irace.exe --help</code> in Windows). How to do that is left as <a href="#homework">homework</a>.</p></li>
+</ol>
+<p>For simplicity, we will use the Rstudio console for the rest of the tutorial.</p>
+<h3 id="install-iraceplot-optional">Install iraceplot (optional)</h3>
+<ol type="1">
+<li><p>Install <code>rmarkdown</code> from the R console:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">install.packages</span>(<span class="st">&quot;rmarkdown&quot;</span>, <span class="dt">repos =</span> <span class="st">&quot;https://cloud.r-project.org&quot;</span>)</span></code></pre></div></li>
+<li><p>If you have installed RStudio, then you may have <code>pandoc</code> installed already. Otherwise, you have to follow the instructions from: <a href="https://pandoc.org/installing.html" class="uri">https://pandoc.org/installing.html</a> . You can verify that <code>pandoc</code> is correctly installed with:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>rmarkdown<span class="op">::</span><span class="kw">find_pandoc</span>()</span></code></pre></div>
+<p>and it should print the folder where <code>pandoc</code> is installed. Otherwise, you need to set the correct folder where <code>pandoc</code> (or <code>pandoc.exe</code> in Windows) is located with:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>rmarkdown<span class="op">::</span><span class="kw">find_pandoc</span>(<span class="dt">dir=</span><span class="st">&quot;C:/path/to/pandoc/bin/&quot;</span>)</span></code></pre></div></li>
+<li><p>Once the above is working, you can do:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="kw">install.packages</span>(<span class="st">&quot;iraceplot&quot;</span>, <span class="dt">repos =</span> <span class="st">&quot;https://cloud.r-project.org&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="kw">library</span>(iraceplot)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a><span class="co"># If you need to change the broswer, use:</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a><span class="co"># options(browser = &quot;google-chrome&quot;)</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a><span class="kw">example</span>(<span class="st">&quot;report&quot;</span>, <span class="dt">ask=</span><span class="ot">FALSE</span>)</span></code></pre></div></li>
+</ol>
+<h2 id="part-1-a-dummy-scenario">Part 1: A dummy scenario</h2>
+<h3 id="exercise-1-basic-usage">Exercise 1: Basic usage</h3>
+<ol type="1">
+<li><p>Open the folder <code>dummy</code> and look at the files <code>train-instances.txt</code>, <code>parameters.txt</code> and <code>scenario.txt</code>.</p></li>
+<li><p>Open the Rstudio console and change the working directory to the location of the <code>dummy</code> folder (<code>Tools | Change Working Dir...</code> or <code>Session | Set Working Directory</code> depending on the version of RStudio). From the R console, if the location of <code>dummy</code> is <code>/path/to/dummy</code>, then you can type:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="kw">setwd</span>(<span class="st">&quot;/path/to/dummy&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a><span class="kw">list.files</span>()</span></code></pre></div></li>
+<li><p>Run <strong>irace</strong> and see what happens:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p>If the above command says that it cannot find the function, you need load <strong>irace</strong> first using:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="kw">library</span>(irace)</span></code></pre></div></li>
+<li><p>Open <code>parameters.txt</code> and change the value of <code>debug</code> to <code>1</code>. Run <strong>irace</strong> again. This example illustrates how you can communicate with the <code>targetRunner</code> via <em>fixed</em> parameters. Remember to change <code>debug</code> back to <code>0</code>.</p></li>
+<li><p>You can also tell <strong>irace</strong> to report more details on what <strong>irace</strong> is doing:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--debug-level 2&quot;</span>)</span></code></pre></div></li>
+<li><p>Let’s help <strong>irace</strong> a bit by providing an initial configuration:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--debug-level 2 --configurations-file=initial.txt&quot;</span>)</span></code></pre></div>
+<p>Can you see the initial configuration? Notice that</p></li>
+<li><p>Now let’s ask <strong>irace</strong> to run the best parameter configuration found on a set of test instances.</p>
+<ol type="a">
+<li>Edit <code>scenario.txt</code> and remove the <code>#</code> character before the line <code>testInstancesFile</code>.</li>
+<li>Run <strong>irace</strong> again as you did above. What has happened now that did not happen before?</li>
+</ol></li>
+</ol>
+<p><strong><span class="emoji" data-emoji="partying_face">🥳</span></strong> <strong>Congratulations! You finished successfully your first automatic parameter configuration!</strong> <strong><span class="emoji" data-emoji="partying_face">🥳</span></strong></p>
+<h3 id="exercise-2-time-as-tuning-budget">Exercise 2: Time as tuning budget</h3>
+<ol type="1">
+<li><p>Look at the file <code>scenario-time.txt</code>. What is different from the file <code>scenario.txt</code>?</p></li>
+<li><p>Run <strong>irace</strong> on this scenario using:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--scenario scenario-time.txt&quot;</span>)</span></code></pre></div>
+<p>Looking at the output, how many runs of the <code>targetRunner</code> was <strong>irace</strong> able to execute?</p>
+<p>How many different configurations was <strong>irace</strong> able to execute?</p>
+<p>On how many instances was the best configuration evaluated?</p></li>
+</ol>
+<h3 id="exercise-3-capping">Exercise 3: Capping</h3>
+<ol type="1">
+<li><p>Look at the file <code>scenario-capping.txt</code>. What is different from the file <code>scenario-time.txt</code>?</p></li>
+<li><p>Run <strong>irace</strong> on this scenario using:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--scenario scenario-capping.txt&quot;</span>)</span></code></pre></div></li>
+<li><p>Change the fixed parameter <code>debug</code> from <code>0</code> to <code>1</code> to see what <code>targetRunner</code> is receiving from <strong>irace</strong>. Change it back to <code>0</code> afterwards.</p></li>
+<li><p>Change <code>maxTime</code> to a lower value, such as <code>1000</code> until you see the message:</p>
+<pre><code>WARNING: with the current settings and estimated time per run ...</code></pre>
+<p>You can do this with:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--scenario scenario-capping.txt --max-time 1000&quot;</span>)</span></code></pre></div>
+<p>Command-line options to <strong>irace</strong> override those in the <code>scenario.txt</code> file.</p></li>
+<li><p>Keep reducing <code>maxTime</code> until you see the message:</p>
+<pre><code>Error: == irace == Insufficient budget</code></pre>
+<p>What happened?</p></li>
+<li><p>Make sure to set again <code>maxTime=1200</code> and run again:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--scenario scenario-capping.txt&quot;</span>)</span></code></pre></div>
+<p>Looking at the output, how many runs of the <code>targetRunner</code> was <strong>irace</strong> able to execute? How many different configurations was <strong>irace</strong> able to test?</p></li>
+<li><p>Now we will enable adaptive capping:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--scenario scenario-capping.txt --capping 1&quot;</span>)</span></code></pre></div>
+<p>Looking at the output, how many runs of the <code>targetRunner</code> was <strong>irace</strong> able to execute?</p>
+<p>How many different configurations was <strong>irace</strong> able to test?</p>
+<p>Notice also there is now a new column <code>Bound</code> in the output.</p></li>
+</ol>
+<h3 id="exercise-4-rejection">Exercise 4: Rejection</h3>
+<ol type="1">
+<li><p>Look at the file <code>scenario-rejection.txt</code>, in particular, examine the <code>target Runner</code>.</p></li>
+<li><p>Run <strong>irace</strong> like:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--scenario scenario-reject.txt&quot;</span>)</span></code></pre></div>
+<p>Do you notice anything new in the output of <strong>irace</strong>? What is going on? Using <code>--debug-level 3</code> like we did before may give you a better idea.</p></li>
+</ol>
+<h3 id="exercise-5-examining-the-log-file">Exercise 5: Examining the log file</h3>
+<ol type="1">
+<li><p><strong>irace</strong> creates a log file <code>irace.Rdata</code> that contains lots of data about the configuration process. You can load the file with:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a>results &lt;-<span class="st"> </span><span class="kw">read_logfile</span>(<span class="st">&quot;irace.Rdata&quot;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a><span class="kw">print</span>(results<span class="op">$</span>allConfigurations)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a><span class="kw">print</span>(results<span class="op">$</span>experiments)</span></code></pre></div></li>
+<li><p>There is a lot more information in <code>results</code> if you know where to look. A better way to analyze the logfile is to use the <a href="https://auto-optimization.github.io/iraceplot/">iraceplot</a> package:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="kw">install.packages</span>(<span class="st">&quot;iraceplot&quot;</span>, <span class="dt">repos =</span> <span class="st">&quot;https://cloud.r-project.org&quot;</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a><span class="kw">report</span>(<span class="st">&quot;irace.Rdata&quot;</span>)</span></code></pre></div></li>
+</ol>
+<h2 id="part-2-target-runner-as-a-python-script">Part 2: target-runner as a Python script</h2>
+<p>In this exercise, we will tune the parameters of the <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.dual_annealing.html"><code>dual_annealing</code></a> optimizer provided by SciPy. Usually, you would need to write your own <code>target-runner.py</code> script that communicates between <strong>irace</strong> and <code>dual_annealing</code>. In this case, I have written a possible <code>target-runner.py</code> that you can find in the folder <code>dual_annealing/</code>.</p>
+<ol type="1">
+<li><p>Open the <code>target-runner.py</code>. What is it doing?</p></li>
+<li><p>Now open <code>instances.txt</code> and <code>parameters.txt</code> and try to understand how they relate to <code>target-runner.py</code>.</p></li>
+<li><p>Open <code>scenario.txt</code>. What is different from other scenario files we have used so far?</p></li>
+<li><p>If you are in Linux/MacOS, you can typically execute <code>target-runner.py</code> directly by doing in the terminal:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="fu">chmod</span> u+x ./target-runner.py</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a><span class="ex">./target-runner.py</span></span></code></pre></div>
+<p>In Windows, you need to find where <code>python3.exe</code> is installed, let’s say: <code>C:/Python/bin/python3.exe</code>. Then, in <code>scenario.txt</code>, set the value of <code>targetRunnerLauncher</code> to that string and remove the character <code>'#'</code> at the start of the line.</p></li>
+<li><p>Now open the Rstudio console and change the working directory to the location of the <code>dual_annealing</code> folder (<code>Tools | Change Working Dir...</code> or <code>Session | Set Working Directory</code> depending on the version of RStudio). From the R console, if the location of <code>dual_annealing</code> is <code>/path/to/dual_annealing</code>, then you can type:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="kw">setwd</span>(<span class="st">&quot;/path/to/dual_annealing&quot;</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a><span class="kw">list.files</span>()</span></code></pre></div></li>
+<li><p>First, let’s check that everything works. In the R console, run:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--check&quot;</span>)</span></code></pre></div>
+<p>If it says <code>Check unsuccesful</code>, then <code>target-runner.py</code> may not have executable permissions or <strong>irace</strong> cannot find <code>python3</code> or <code>python3.exe</code> or there is a Python package missing such as <code>scipy</code>.</p></li>
+<li><p>Now, let’s launch <strong>irace</strong> and see what it is doing:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--debug-level 2&quot;</span>)</span></code></pre></div>
+<p>Usually we do not want so much detail, so let’s cancel the execution with <code>Ctrl+C</code> (in Linux) <code>ESC</code> (in Windows) or click the <img src="./img/stop-icon.png" title="STOP" style="height:2em" alt="STOP" /> button in Rstudio. You can also open the Task Manager and kill the python process and this will force <strong>irace</strong> to stop with an error.</p></li>
+<li><p>Let’s launch <strong>irace</strong> again but this time using 2 CPUs to execute multiple calls to <code>target-runner.py</code> in parallel:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--parallel 2 &quot;</span>)</span></code></pre></div>
+<p>(If you have 4 CPUs, you could use <code>--parallel 4</code>)</p>
+<p>What interesting things do you notice in the output?</p></li>
+<li><p>Let’s wait until <strong>irace</strong> finishes to do an ablation analysis in the next part.</p></li>
+</ol>
+<h2 id="part-3-ablation-analysis">Part 3: Ablation analysis</h2>
+<ol type="1">
+<li><p>You should have a file <code>irace.Rdata</code> in the folder <code>dual_annealing</code>.</p></li>
+<li><p>We are going to do an ablation analysis between the default configuration and the best found by <strong>irace</strong>. In the R console, type:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="kw">ablation</span>(<span class="st">&quot;irace.Rdata&quot;</span>, <span class="dt">src =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>(Usually, <code>target=</code> will provide the target configuration ID. The default is to choose the best found.)</p>
+<p>If <strong>irace</strong> was unlucky, it could happen that the best configuration found was the default (1) and ablation will give an error.</p></li>
+<li><p>Now you should have a file <code>log-ablation.Rdata</code> that contains the ablation results. Let’s visualize it:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="kw">plotAblation</span>(<span class="st">&quot;log-ablation.Rdata&quot;</span>, <span class="dt">type=</span><span class="st">&quot;boxplot&quot;</span>)</span></code></pre></div>
+<p>What can you conclude from this plot?</p></li>
+</ol>
+<h2 id="part-4-acotsp-scenario">Part 4: ACOTSP scenario</h2>
+<p>For this exercise, we will use the <a href="https://github.com/MLopez-Ibanez/ACOTSPQAP/">ACOTSPQAP software</a>.</p>
+<ol type="1">
+<li><p>In the folder <code>acotsp</code>, you will find a file <code>scenario.txt</code>. What is different from other scenario files that we have examined?</p></li>
+<li><p>Examine also <code>parameters-acotsp.txt</code> and <code>target-runner-acotsp.py</code>.</p></li>
+<li><p>We need to compile the C code in <code>acotsp/src/</code>. In Linux and MacOS, you should be able to do it from the shell / terminal with:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="bu">cd</span> ./acotsp/src</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a><span class="fu">make</span> acotsp</span></code></pre></div>
+<p>In Windows, you may need to do something different to compile the code.</p>
+<p>If everything works, you should have an executable file <code>acotsp</code> in the folder <code>acotsp/src/</code> and the following should work:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true"></a><span class="ex">./acotsp</span> --help</span></code></pre></div></li>
+<li><p>Now go back to the folder <code>acotsp</code>. If you are in Linux/MacOS, you can typically execute <code>target-runner-acotsp.py</code> directly by doing in the terminal:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true"></a><span class="fu">chmod</span> u+x ./target-runner-acotsp.py</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true"></a><span class="ex">./target-runner-acotsp.py</span></span></code></pre></div>
+<p>In Windows, you need to find where <code>python3.exe</code> is installed, let’s say: <code>C:/Python/bin/python3.exe</code>. Then, in <code>scenario.txt</code>, set the value of <code>targetRunnerLauncher</code> to that string and remove the character <code>'#'</code> at the start of the line.</p></li>
+<li><p>In RStudio, change the working directory to the location of the <code>acotsp</code> folder (<code>Tools | Change Working Dir...</code> or <code>Session | Set Working Directory</code> depending on the version of RStudio). From the R console, if the location is <code>/path/to/acotsp</code>, then you can type:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true"></a><span class="kw">setwd</span>(<span class="st">&quot;/path/to/acotsp&quot;</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true"></a><span class="kw">list.files</span>()</span></code></pre></div></li>
+<li><p>First, let’s check that everything works:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--check&quot;</span>)</span></code></pre></div>
+<p>If it says <code>Check unsuccesful</code>, then <code>target-runner-acotsp.py</code> or <code>./acotsp/src/acotsp</code> (or <code>./acotsp/src/acotsp.exe</code>) may not have executable permissions or <strong>irace</strong> cannot find <code>python3</code> or <code>python3.exe</code>.</p></li>
+<li><p>Now, let’s launch <strong>irace</strong> and see what it is doing:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--debug-level 2&quot;</span>)</span></code></pre></div>
+<p>Usually we do not want so much detail, so let’s cancel the execution with <code>Ctrl+C</code> (in Linux) <code>ESC</code> (in Windows) or click the <img src="./img/stop-icon.png" title="STOP" style="height:2em" alt="STOP" /> button in Rstudio. You can also open the Task Manager and kill the python process and this will force <strong>irace</strong> to stop with an error.</p></li>
+<li><p>Let’s launch <strong>irace</strong> again but this time using 2 CPUs to execute multiple calls to <code>target-runner-acotsp.py</code> in parallel:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--parallel 2 &quot;</span>)</span></code></pre></div>
+<p>(If you have 4 CPUs, you could use <code>--parallel 4</code>)</p>
+<p>What interesting things do you notice in the output?</p></li>
+<li><p>If you have enough time, let <code>irace</code> run to completion and then do an ablation analysis like we did earlier.</p></li>
+</ol>
+<h2 id="homework">Homework</h2>
+<ol type="1">
+<li><p>Add <strong>irace</strong>’s <code>bin/</code> folder to the <code>PATH</code> environment variable of your operating system. Check that it works by opening a system terminal (bash shell, Terminal or Powershell) and type: <code>irace --help</code> (or <code>irace.exe --help</code> in Windows). Now you are repeat all the exercises by using <code>irace</code> from the terminal. For example, if using R, you evaluated <code>irace.cmdline("--check")</code>, you will type in the terminal <code>irace --check</code>.</p></li>
+<li><p>Use <a href="https://auto-optimization.github.io/iraceplot/">iraceplot</a> to analyze the <code>irace.Rdata</code> file generated by each exercise.</p></li>
+<li><p>You can also tune multi-objective optimizers with <strong>irace</strong>. Check the example provided by the <a href="https://fcampelo.github.io/MOEADr/"><strong>MOEADr</strong></a> package: <a href="https://fcampelo.github.io/MOEADr/articles/Comparison_Usage.html" class="uri">https://fcampelo.github.io/MOEADr/articles/Comparison_Usage.html</a></p></li>
+</ol>
+</body>
+</html>

@@ -1,0 +1,67 @@
+###################################################### -*- mode: r -*- #####
+## Scenario setup for Iterated Race (irace).
+############################################################################
+
+## To use the default value of a parameter of irace, simply do not set
+## the parameter (comment it out in this file, and do not give any
+## value on the command line).
+
+## File that contains the description of the parameters of the target
+## algorithm.
+# parameterFile = "./parameters.txt"
+
+## Directory where training instances are located; either absolute path or
+## relative to current directory. If no trainInstancesFiles is provided, all
+## the files in trainInstancesDir will be listed as instances.
+trainInstancesDir = ""
+
+## File that contains a list of training instances and optionally additional
+## parameters for them. If trainInstancesDir is provided, irace will search
+## for the files in this folder.
+trainInstancesFile = "train-instances.txt"
+
+## File containing a list of test instances and optionally additional
+## parameters for them.
+testInstancesFile = "test-instances.txt"
+
+## Maximum number of runs (invocations of targetRunner) that will be
+## performed. It determines the maximum budget of experiments for the tuning.
+maxExperiments = 100
+
+## Executable called for each configuration that executes the target algorithm
+## to be tuned. See the templates and examples provided.
+targetRunner = function(experiment, scenario) {
+  configuration.id <- experiment$id.configuration
+  instance.id      <- experiment$id.instance
+  seed             <- experiment$seed
+  configuration    <- experiment$configuration
+  instance         <- experiment$instance
+
+  if (configuration[["debug"]] == 1) {
+    cat("Configuration:\n")
+    print(configuration)
+    cat("Instance: ", instance, "\n",
+        "Seed: ", seed, "\n",
+        "Configuration ID: ", configuration.id, "\n",
+        "Instance ID: ", instance.id, "\n")
+  }
+  # Save and set random seed.
+  old_seed <- list(random_seed = get(".Random.seed", globalenv(), mode = "integer", 
+                                     inherits = FALSE),
+                   rng_kind = RNGkind())
+  set.seed(seed)
+
+  # Simulate running an algorithm.
+  cost <- rnorm(1L, mean=1, sd=0.01) + configuration[["p_int"]] * configuration[["p_real"]]
+  # Restore random seed.
+  RNGkind(old_seed$rng_kind[[1]], normal.kind = old_seed$rng_kind[[2]],
+          sample.kind = old_seed$rng_kind[[3]])
+  assign(".Random.seed", old_seed$random_seed, globalenv())
+
+  return(list(cost = cost))
+}
+
+
+## END of scenario file
+############################################################################
+

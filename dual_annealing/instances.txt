@@ -1,0 +1,17 @@
+rosenbrock d=2
+rastrigin d=2
+stybtang d=2
+michalewicz d=2
+ackley d=3
+rosenbrock d=3
+rastrigin d=3
+stybtang d=3
+michalewicz d=3
+ackley d=3
+rosenbrock d=5
+rastrigin d=5
+stybtang d=5
+michalewicz d=5
+ackley d=5
+
+

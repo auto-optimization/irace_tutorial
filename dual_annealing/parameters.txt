@@ -1,0 +1,7 @@
+# https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.dual_annealing.html
+init_t "--initial_temp="  i,log (1, 10000)
+rest_t "--restart_temp_ratio="  r,log (0.00001, 0.9)
+visit  "--visit="               r     (1.01, 3)
+accept "--accept="              r     (-10, -1.001)
+no_ls "--no_local_search="  c (0,1)
+
