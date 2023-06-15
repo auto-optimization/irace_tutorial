@@ -89,6 +89,6 @@ if not os.path.isfile(out_file):
 cost = parse_output(out_file)
 print(cost)
 
-os.remove(out_file)
-os.remove(err_file)
+#os.remove(out_file)
+#os.remove(err_file)
 sys.exit(0)

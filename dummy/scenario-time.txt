@@ -52,7 +52,7 @@ targetRunner = function(experiment, scenario) {
                    rng_kind = RNGkind())
   set.seed(seed)
 
-  cost <- rnorm(1L, sd=0.01) + configuration[["p_int"]] * configuration[["p_real"]]
+  cost <- rnorm(1L, mean=1, sd=0.01) + configuration[["p_int"]] * configuration[["p_real"]]
   # Simulate runtime.
   time <- as.integer(1 + 5*runif(1))
 

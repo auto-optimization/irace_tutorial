@@ -17,7 +17,7 @@ targetRunner = "./target-runner.py"
 
 ## Executable that will be used to launch the target runner, when targetRunner
 ## cannot be executed directly (.e.g, a Python script in Windows).
-# targetRunnerLauncher = "C:/Python/bin/python3.exe"
+targetRunnerLauncher = "/usr/bin/python3" #C:/Python/bin/python3.exe"
 
 ## Directory where training instances are located; either absolute path or
 ## relative to current directory. If no trainInstancesFiles is provided, all

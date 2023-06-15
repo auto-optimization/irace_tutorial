@@ -55,7 +55,7 @@ targetRunner = function(experiment, scenario) {
   if (configuration[["p_real"]] >= 0.4)
     cost <- Inf
   else
-    cost <- rnorm(1L, sd=0.01) + configuration[["p_int"]] * configuration[["p_real"]]
+    cost <- rnorm(1L, mean=1, sd=0.01) + configuration[["p_int"]] * configuration[["p_real"]]
 
   # Restore random seed.
   RNGkind(old_seed$rng_kind[[1]], normal.kind = old_seed$rng_kind[[2]],

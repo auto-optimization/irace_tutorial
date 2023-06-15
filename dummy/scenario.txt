@@ -22,7 +22,7 @@ trainInstancesFile = "train-instances.txt"
 
 ## File containing a list of test instances and optionally additional
 ## parameters for them.
-# testInstancesFile = "test-instances.txt"
+testInstancesFile = "test-instances.txt"
 
 ## Maximum number of runs (invocations of targetRunner) that will be
 ## performed. It determines the maximum budget of experiments for the tuning.
@@ -52,7 +52,7 @@ targetRunner = function(experiment, scenario) {
   set.seed(seed)
 
   # Simulate running an algorithm.
-  cost <- rnorm(1L, sd=0.01) + configuration[["p_int"]] * configuration[["p_real"]]
+  cost <- rnorm(1L, mean=1, sd=0.01) + configuration[["p_int"]] * configuration[["p_real"]]
   # Restore random seed.
   RNGkind(old_seed$rng_kind[[1]], normal.kind = old_seed$rng_kind[[2]],
           sample.kind = old_seed$rng_kind[[3]])

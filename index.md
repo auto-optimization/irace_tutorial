@@ -6,6 +6,10 @@ toc-title: "Contents"
 toc: true
 ---
 
+## Download ##
+
+Download the materials: <https://lopez-ibanez.eu/exercises.zip>
+
 ## Setup ##
 
 1.  Installing R: <https://mlopez-ibanez.github.io/irace/#installing-r>
@@ -69,16 +73,6 @@ For simplicity, we will use the Rstudio console for the rest of the tutorial.
     example("report", ask=FALSE)
     ```
 
-<!---
-### Install MOEADr ###
-
-From the R console:
-
-```R
-    install.packages("MOEADr", repos = "https://cloud.r-project.org")
-```
--->
-
 ## Part 1: A dummy scenario ##
 
 ### Exercise 1: Basic usage ###
@@ -101,7 +95,7 @@ From the R console:
     If the above command says that it cannot find the function, you need load **irace** first using: 
     
     ```R
-    library(irace)`.
+    library(irace)
     ```
     
 1.  Open `parameters.txt` and change the value of `debug` to `1`. Run **irace** again. This example illustrates how you can communicate with the `targetRunner` via _fixed_ parameters. Remember to change `debug` back to `0`.
@@ -143,7 +137,9 @@ From the R console:
 
     Looking at the output, how many runs of the `targetRunner` was **irace** able to execute? 
     
-    How many different configurations was **irace** able to test?
+    How many different configurations was **irace** able to execute?
+    
+    On how many instances was the best configuration evaluated?
 
 
 ### Exercise 3: Capping ###
@@ -269,8 +265,7 @@ In this exercise, we will tune the parameters of the [`dual_annealing`](https://
     irace.cmdline("--debug-level 2")
     ```
  
-     Usually we do not want so much detail, so let's cancel the execution with `Ctrl+C`.
-     You can also open the Task Manager and kill the python process and this will force **irace** to stop with an error.
+     Usually we do not want so much detail, so let's cancel the execution with `Ctrl+C` (in Linux) `ESC` (in Windows) or click the ![STOP](./stop-icon.png){height=2em title=STOP} button in Rstudio.  You can also open the Task Manager and kill the python process and this will force **irace** to stop with an error.
      
      
 1.  Let's launch **irace** again but this time using 2 CPUs to execute multiple calls to `target-runner.py` in parallel:
@@ -312,28 +307,71 @@ In this exercise, we will tune the parameters of the [`dual_annealing`](https://
  
 ## Part 4: ACOTSP scenario ##
 
-For this exercise, we will use the  [ACOTSPQAP software](https://github.com/MLopez-Ibanez/ACOTSPQAP/). Assuming you have followed the [setup described above](#acotsp-setup), you should have a file `acotsp` in the folder `acotsp/src/`.
+For this exercise, we will use the  [ACOTSPQAP software](https://github.com/MLopez-Ibanez/ACOTSPQAP/).
 
 1.  In the folder `acotsp`, you will find a file `scenario.txt`. What is different from other scenario files that we have examined?
 
-1.  Examine also `parameters-acotsp.txt` and `target-runner.py`.
+1.  Examine also `parameters-acotsp.txt` and `target-runner-acotsp.py`.
 
-1.  Change the working directory to the location of the `acotsp` folder (`Tools | Change Working Dir...` or `Session | Set Working Directory` depending on the version of RStudio). From the R console, if the location of `dual_annealing` is `/path/to/dual_annealing`, then you can type:
+1.  We need to compile the C code in `acotsp/src/`. In Linux and MacOS, you should be able to do it from the shell / terminal with:
+
+    ```bash
+    cd ./acotsp/src
+    make acotsp
+    ```
+    
+    In Windows, you may need to do something different to compile the code.
+    
+    If everything works, you should have an executable file `acotsp` in the folder `acotsp/src/` and the following should work:
+    
+    ```bash
+    ./acotsp --help
+    ```
+    
+1.  Now go back to the folder `acotsp`.  If you are in Linux/MacOS, you can typically execute `target-runner-acotsp.py` directly by doing in the terminal:
+
+    ```bash
+    chmod u+x ./target-runner-acotsp.py
+    ./target-runner-acotsp.py
+    ```
+
+    In Windows, you need to find where `python3.exe` is installed, let's say: `C:/Python/bin/python3.exe`. Then, in `scenario.txt`, set the value of `targetRunnerLauncher` to that string and remove the character `'#'` at the start of the line.
+
+    
+1.  In RStudio, change the working directory to the location of the `acotsp` folder (`Tools | Change Working Dir...` or `Session | Set Working Directory` depending on the version of RStudio). From the R console, if the location is `/path/to/acotsp`, then you can type:
 
     ```R
     setwd("/path/to/acotsp")
     list.files()
     ```
-
-
-1.  First, let's check that everything works. In the R console, change the current directory, run:
+1.  First, let's check that everything works:
 
     ```R
     irace.cmdline("--check")
     ```
     
-    If it says `Check unsuccesful`, then `target-runner.py` may not have executable permissions or **irace** cannot find `python3` or `python3.exe` or there is a Python package missing such as `scipy`.
+    If it says `Check unsuccesful`, then `target-runner-acotsp.py` or `./acotsp/src/acotsp` (or `./acotsp/src/acotsp.exe`) may not have executable permissions or **irace** cannot find `python3` or `python3.exe`.
+    
+1.  Now, let's launch **irace** and see what it is doing:
 
+    ```R
+    irace.cmdline("--debug-level 2")
+    ```
+ 
+     Usually we do not want so much detail, so let's cancel the execution with `Ctrl+C` (in Linux) `ESC` (in Windows) or click the ![STOP](./stop-icon.png){height=2em title=STOP} button in Rstudio.  You can also open the Task Manager and kill the python process and this will force **irace** to stop with an error.
+          
+     
+1.  Let's launch **irace** again but this time using 2 CPUs to execute multiple calls to `target-runner-acotsp.py` in parallel:
+
+    ```R
+    irace.cmdline("--parallel 2 ")
+    ```
+
+     (If you have 4 CPUs, you could use `--parallel 4`)
+     
+     What interesting things do you notice in the output?
+
+1.  If you have enough time, let `irace` run to completion and then do an ablation analysis like we did earlier.
 
 
 
@@ -343,3 +381,4 @@ For this exercise, we will use the  [ACOTSPQAP software](https://github.com/MLop
  
 1.  Use [iraceplot](https://auto-optimization.github.io/iraceplot/) to analyze the `irace.Rdata` file generated by each exercise.
  
+1.  You can also tune multi-objective optimizers with **irace**. Check the example provided by the [**MOEADr**](https://fcampelo.github.io/MOEADr/) package: <https://fcampelo.github.io/MOEADr/articles/Comparison_Usage.html> 

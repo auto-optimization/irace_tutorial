@@ -98,11 +98,7 @@ if __name__=='__main__':
     dim = int(sys.argv[5].split("=")[1])
     cand_params = sys.argv[6:]
 
-    # Default values (if any)
-    a = None
-    b = None
     # Parse parameters
-
     args = {}
     while cand_params:
         # Get and remove first and second elements.

@@ -31,7 +31,7 @@ maxTime = 1200
 ## Enable the use of adaptive capping, a technique designed for minimizing the
 ## computation time of configurations. Capping is enabled by default if
 ## `elitist` is active, `maxTime > 0` and `boundMax > 0`.
-capping = 0
+capping = 1
 
 ## Maximum execution bound for `targetRunner`. It must be specified when
 ## capping is enabled.
@@ -63,7 +63,8 @@ targetRunner = function(experiment, scenario) {
   set.seed(seed)
 
   # Simulate runtime.
-  time <- rnorm(1L, sd=0.01) + configuration[["p_int"]] * configuration[["p_real"]]
+  time <- rnorm(1L, mean=1, sd=0.01) + configuration[["p_int"]] * configuration[["p_real"]]
+  time <- max(time, 0.1)
   time <- min(bound, time) # Simulate that the bound is respected.
 
   # Restore random seed.
@@ -77,4 +78,3 @@ targetRunner = function(experiment, scenario) {
 
 ## END of scenario file
 ############################################################################
-
