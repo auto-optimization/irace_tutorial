@@ -74,6 +74,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+<p><img style="float:right" src="./img/ssaad2023.png" height="100px" /></p>
 <header id="title-block-header">
 <h1 class="title">Automatic Algorithm Configuration: Practical lab session</h1>
 <p class="subtitle">Summer School on Automatic Algorithm Design 2023, Lille, France</p>
@@ -102,7 +103,7 @@
 </ul>
 </nav>
 <h2 id="download">Download</h2>
-<p>Download the materials: <a href="https://lopez-ibanez.eu/exercises.zip" class="uri">https://lopez-ibanez.eu/exercises.zip</a></p>
+<p>Download the materials from here: <a href="https://lopez-ibanez.eu/exercises.zip" class="uri">https://lopez-ibanez.eu/exercises.zip</a></p>
 <h2 id="setup">Setup</h2>
 <ol type="1">
 <li><p>Installing R: <a href="https://mlopez-ibanez.github.io/irace/#installing-r" class="uri">https://mlopez-ibanez.github.io/irace/#installing-r</a></p></li>
@@ -225,7 +226,7 @@
 <p>If it says <code>Check unsuccesful</code>, then <code>target-runner.py</code> may not have executable permissions or <strong>irace</strong> cannot find <code>python3</code> or <code>python3.exe</code> or there is a Python package missing such as <code>scipy</code>.</p></li>
 <li><p>Now, let’s launch <strong>irace</strong> and see what it is doing:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--debug-level 2&quot;</span>)</span></code></pre></div>
-<p>Usually we do not want so much detail, so let’s cancel the execution with <code>Ctrl+C</code> (in Linux) <code>ESC</code> (in Windows) or click the <img src="./stop-icon.png" title="STOP" style="height:2em" alt="STOP" /> button in Rstudio. You can also open the Task Manager and kill the python process and this will force <strong>irace</strong> to stop with an error.</p></li>
+<p>Usually we do not want so much detail, so let’s cancel the execution with <code>Ctrl+C</code> (in Linux) <code>ESC</code> (in Windows) or click the <img src="./img/stop-icon.png" title="STOP" style="height:2em" alt="STOP" /> button in Rstudio. You can also open the Task Manager and kill the python process and this will force <strong>irace</strong> to stop with an error.</p></li>
 <li><p>Let’s launch <strong>irace</strong> again but this time using 2 CPUs to execute multiple calls to <code>target-runner.py</code> in parallel:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--parallel 2 &quot;</span>)</span></code></pre></div>
 <p>(If you have 4 CPUs, you could use <code>--parallel 4</code>)</p>
@@ -266,7 +267,7 @@
 <p>If it says <code>Check unsuccesful</code>, then <code>target-runner-acotsp.py</code> or <code>./acotsp/src/acotsp</code> (or <code>./acotsp/src/acotsp.exe</code>) may not have executable permissions or <strong>irace</strong> cannot find <code>python3</code> or <code>python3.exe</code>.</p></li>
 <li><p>Now, let’s launch <strong>irace</strong> and see what it is doing:</p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--debug-level 2&quot;</span>)</span></code></pre></div>
-<p>Usually we do not want so much detail, so let’s cancel the execution with <code>Ctrl+C</code> (in Linux) <code>ESC</code> (in Windows) or click the <img src="./stop-icon.png" title="STOP" style="height:2em" alt="STOP" /> button in Rstudio. You can also open the Task Manager and kill the python process and this will force <strong>irace</strong> to stop with an error.</p></li>
+<p>Usually we do not want so much detail, so let’s cancel the execution with <code>Ctrl+C</code> (in Linux) <code>ESC</code> (in Windows) or click the <img src="./img/stop-icon.png" title="STOP" style="height:2em" alt="STOP" /> button in Rstudio. You can also open the Task Manager and kill the python process and this will force <strong>irace</strong> to stop with an error.</p></li>
 <li><p>Let’s launch <strong>irace</strong> again but this time using 2 CPUs to execute multiple calls to <code>target-runner-acotsp.py</code> in parallel:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true"></a><span class="kw">irace.cmdline</span>(<span class="st">&quot;--parallel 2 &quot;</span>)</span></code></pre></div>
 <p>(If you have 4 CPUs, you could use <code>--parallel 4</code>)</p>

@@ -4,11 +4,13 @@ subtitle: "Summer School on Automatic Algorithm Design 2023, Lille, France"
 author: "Manuel López-Ibáñez, University of Manchester, UK (https://lopez-ibanez.eu)"
 toc-title: "Contents"
 toc: true
+include-before: |
+ <img style="float:right" src="./img/ssaad2023.png" height="100px" />
 ---
 
 ## Download ##
 
-Download the materials: <https://lopez-ibanez.eu/exercises.zip>
+Download the materials from here: <https://lopez-ibanez.eu/exercises.zip>
 
 ## Setup ##
 
@@ -265,7 +267,7 @@ In this exercise, we will tune the parameters of the [`dual_annealing`](https://
     irace.cmdline("--debug-level 2")
     ```
  
-     Usually we do not want so much detail, so let's cancel the execution with `Ctrl+C` (in Linux) `ESC` (in Windows) or click the ![STOP](./stop-icon.png){height=2em title=STOP} button in Rstudio.  You can also open the Task Manager and kill the python process and this will force **irace** to stop with an error.
+     Usually we do not want so much detail, so let's cancel the execution with `Ctrl+C` (in Linux) `ESC` (in Windows) or click the ![STOP](./img/stop-icon.png){height=2em title=STOP} button in Rstudio.  You can also open the Task Manager and kill the python process and this will force **irace** to stop with an error.
      
      
 1.  Let's launch **irace** again but this time using 2 CPUs to execute multiple calls to `target-runner.py` in parallel:
@@ -358,7 +360,7 @@ For this exercise, we will use the  [ACOTSPQAP software](https://github.com/MLop
     irace.cmdline("--debug-level 2")
     ```
  
-     Usually we do not want so much detail, so let's cancel the execution with `Ctrl+C` (in Linux) `ESC` (in Windows) or click the ![STOP](./stop-icon.png){height=2em title=STOP} button in Rstudio.  You can also open the Task Manager and kill the python process and this will force **irace** to stop with an error.
+     Usually we do not want so much detail, so let's cancel the execution with `Ctrl+C` (in Linux) `ESC` (in Windows) or click the ![STOP](./img/stop-icon.png){height=2em title=STOP} button in Rstudio.  You can also open the Task Manager and kill the python process and this will force **irace** to stop with an error.
           
      
 1.  Let's launch **irace** again but this time using 2 CPUs to execute multiple calls to `target-runner-acotsp.py` in parallel:
